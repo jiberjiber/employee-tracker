@@ -5,7 +5,28 @@ const cTable = require("console.table");
 var username = "";
 var password = "";
 
-console.log("Please log into your local database.")
+const departmentsArr = [];
+const employeesArr = [];
+const rolesArr = [];
+
+
+var connection = mysql.createConnection({
+    host: "localhost",
+    port: "3306",
+    user: "testing",
+    password: "",
+    database: "employee_db"
+});
+
+connection.connect(function(err){
+    if(err) throw err;
+    console.log("Connected to database!");
+    mainMenu();
+});
+
+
+
+/*console.log("Please log into your local database.")
 inquirer.prompt([
     {
         type: "input",
@@ -20,11 +41,8 @@ inquirer.prompt([
 ]).then(answer => {
     username = answer.usr;
     password = answer.pwd;
-    con();
-});
-
-function con(){
-    var connection = mysql.createConnection({
+    
+    connection = mysql.createConnection({
         host: "localhost",
         port: "3306",
         user: username,
@@ -37,7 +55,7 @@ function con(){
         console.log("Connected to database!");
         mainMenu();
     });
-}
+});*/
 
 function mainMenu(){
     inquirer.prompt([
@@ -90,19 +108,104 @@ function addMenu(){
     ]).then(answers => {
         switch(answers.addMenu){
             case 'Department':
-                addDepartment();
+                add("department");
                 break;
             case 'Role':
-                addRole();
+                add("role");
                 break;
             case 'Employee':
-                addEmployee();
+                add("employee");
                 break;
             case 'Cancel':
                 mainMenu();
                 break;
         }
     });
+}
+
+function updateArrays(){
+    connection.query("SELECT name FROM departments",function(err, data){
+        Object.keys(data).forEach(function(key){
+            departmentsArr.push(String(data[key].name));
+        });
+    });
+
+    connection.query("SELECT name FROM roles",function(err, data){
+        Object.keys(data).forEach(function(key){
+            rolesArr.push(String(data[key].name));
+        });
+    });
+
+    connection.query("SELECT firstname, lastname FROM employees",function(err, data){
+        Object.keys(data).forEach(function(key){
+            employeesArr.push(String(data[key].name));
+        });
+    });
+}
+
+function add(type){
+    updateArrays();
+
+    const departmentQuestions = [
+        {
+            type: "input",
+            name: "name",
+            message: "New department name: "
+        }
+    ];
+
+    const roleQuestions = [
+        {
+            type: "input",
+            name: "name",
+            message: "New role name: "
+        },
+        {
+            type: "input",
+            name: "salary",
+            message: "Role's salary: "
+        },
+        {
+            type: "list",
+            name: "parentDepartment",
+            message: "Which department is this role under?",
+            choices: departmentsArr
+        }
+    ];
+
+    const employeeQuestions = [
+        {
+            type: "input",
+            name: "firstname",
+            message: "New employee's first name: "
+        },
+        {
+            type: "input",
+            name: "lastname",
+            message: "New employee's last name: "
+        },
+        {
+            type: "input",
+            name: "name",
+            message: "New employee's first name: "
+        }
+    ];
+
+    switch(type){
+        case "department":
+            inquirer.prompt(departmentQuestions).then(res => {
+                connection.query(`INSERT INTO departments (name) VALUE ("${res.name}")`, function(err, response){
+                    if(err) throw err;
+                    console.log(response);
+                });
+            });
+            break;
+        case "role":
+            inquirer.prompt(roleQuestions).then(res => {
+                console.log(`New role: ${res.name}\nRole's salary: ${res.salary}\nParent Department: ${res.parentDepartment}`);
+            });
+            break;
+    }
 }
 
 function viewMenu(){
@@ -121,18 +224,32 @@ function viewMenu(){
     ]).then(answers => {
         switch(answers.viewMenu){
             case 'Departments':
-                console.table()
+                connection.query("SELECT * FROM employee_db.departments LIMIT 100;", function(err, data){
+                    if(err) throw err;
+
+                    console.table(data);
+                });
                 break;
             case 'Roles':
-                addRole();
+                connection.query("SELECT * FROM employee_db.roles LIMIT 100;", function(err, data){
+                    if(err) throw err;
+
+                    console.table(data);
+                });
                 break;
             case 'Employees':
-                addEmployee();
+                connection.query("SELECT * FROM employee_db.employees LIMIT 100;", function(err, data){
+                    if(err) throw err;
+
+                    console.table(data);
+                });
                 break;
             case 'Cancel':
                 mainMenu();
                 break;
         }
+
+        mainMenu();
     });
 }
 
