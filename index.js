@@ -141,8 +141,8 @@ function add(type){
     const roleQuestions = [
         {
             type: "input",
-            name: "name",
-            message: "New role name: "
+            name: "title",
+            message: "New role title: "
         },
         {
             type: "input",
@@ -169,9 +169,16 @@ function add(type){
             message: "New employee's last name: "
         },
         {
-            type: "input",
-            name: "name",
-            message: "New employee's first name: "
+            type: "list",
+            name: "role",
+            message: "New employee's role: ",
+            choices: rolesArr
+        },
+        {
+            type: "list",
+            name: "manager",
+            message: "New employee's manager: ",
+            choices: employeesArr
         }
     ];
 
@@ -183,11 +190,30 @@ function add(type){
                     console.log(response);
                 });
             });
+
+            mainMenu();
             break;
         case "role":
             inquirer.prompt(roleQuestions).then(res => {
-                console.log(`New role: ${res.name}\nRole's salary: ${res.salary}\nParent Department: ${res.parentDepartment}`);
+
+                console.log(`New role: ${res.title}\nRole's salary: ${res.salary}\nParent Department: ${res.parentDepartment}`);
+
+                connection.query(`INSERT INTO roles (title, salary, department_id) VALUES ("${res.title}", ${res.salary}, (SELECT id FROM departments WHERE name = "${res.parentDepartment}"));`, function(err, response){
+                    if(err) throw err;
+
+                    console.log(response);
+                });
             });
+
+            mainMenu();
+            break;
+
+        case "employee":
+            inquirer.prompt(employeeQuestions).then(res => {
+
+            });
+
+            mainMenu();
             break;
     }
 }
