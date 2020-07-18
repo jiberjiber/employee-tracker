@@ -1,0 +1,23 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "A Node/MySQL-based application used to track employee details.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiberjiber/employee-tracker.git"
+  },
+  "author": "Evan Boswood",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/jiberjiber/employee-tracker/issues"
+  },
+  "homepage": "https://github.com/jiberjiber/employee-tracker#readme",
+  "dependencies": {
+    "inquirer": "^7.3.2",
+    "mysql": "^2.18.1"
+  }
+}
