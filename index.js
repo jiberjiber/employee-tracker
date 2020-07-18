@@ -1,5 +1,43 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const cTable = require("console.table");
+
+var username = "";
+var password = "";
+
+console.log("Please log into your local database.")
+inquirer.prompt([
+    {
+        type: "input",
+        name: "usr",
+        message: "Username: "
+    },
+    {
+        type: "password",
+        name: "pwd",
+        message: "Password: "
+    }
+]).then(answer => {
+    username = answer.usr;
+    password = answer.pwd;
+    con();
+});
+
+function con(){
+    var connection = mysql.createConnection({
+        host: "localhost",
+        port: "3306",
+        user: username,
+        password: password,
+        database: "employee_db"
+    });
+    
+    connection.connect(function(err){
+        if(err) throw err;
+        console.log("Connected to database!");
+        mainMenu();
+    });
+}
 
 function mainMenu(){
     inquirer.prompt([
@@ -81,9 +119,9 @@ function viewMenu(){
             ]
         }
     ]).then(answers => {
-        switch(answers.addMenu){
+        switch(answers.viewMenu){
             case 'Departments':
-                addDepartment();
+                console.table()
                 break;
             case 'Roles':
                 addRole();
@@ -101,11 +139,3 @@ function viewMenu(){
 function updateMenu(){
 
 }
-
-
-
-
-
-
-
-mainMenu();
