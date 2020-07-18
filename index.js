@@ -66,11 +66,11 @@ function mainMenu(){
             choices: [
                 "Add Departments, Roles, or Employees",
                 "View Departments, Roles, or Employees",
-                "Update Employee Roles",
+                "Update Employee Roles"/*,
                 "Update Managers",
                 "View Employees by Manager",
                 "Delete Departments, Roles, or Employees",
-                "View Total Utilized Budget of a Department"
+                "View Total Utilized Budget of a Department"*/
             ]
         }
     ]).then(answer => {
@@ -123,28 +123,12 @@ function addMenu(){
     });
 }
 
-function updateArrays(){
+function add(type){
     connection.query("SELECT name FROM departments",function(err, data){
         Object.keys(data).forEach(function(key){
             departmentsArr.push(String(data[key].name));
         });
     });
-
-    connection.query("SELECT name FROM roles",function(err, data){
-        Object.keys(data).forEach(function(key){
-            rolesArr.push(String(data[key].name));
-        });
-    });
-
-    connection.query("SELECT firstname, lastname FROM employees",function(err, data){
-        Object.keys(data).forEach(function(key){
-            employeesArr.push(String(data[key].name));
-        });
-    });
-}
-
-function add(type){
-    updateArrays();
 
     const departmentQuestions = [
         {
