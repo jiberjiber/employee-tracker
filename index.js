@@ -107,5 +107,5 @@ function updateMenu(){
 
 
 
-console.log(process.env.MYSQL_LOCALPW);
+
 mainMenu();
