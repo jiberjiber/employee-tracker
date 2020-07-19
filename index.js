@@ -9,24 +9,7 @@ var departmentsArr = [];
 var employeesArr = [];
 var rolesArr = [];
 
-
-var connection = mysql.createConnection({
-    host: "2.0.0.1",
-    port: "3306",
-    user: "evan",
-    password: "Hikbigdlu7320!",
-    database: "employee_db"
-});
-
-connection.connect(function(err){
-    if(err) throw err;
-    console.log("Connected to database!");
-    mainMenu();
-});
-
-
-
-/*console.log("Please log into your local database.")
+console.log("Please log into your local database.")
 inquirer.prompt([
     {
         type: "input",
@@ -55,7 +38,7 @@ inquirer.prompt([
         console.log("Connected to database!");
         mainMenu();
     });
-});*/
+});
 
 function mainMenu(){
     inquirer.prompt([
@@ -66,11 +49,7 @@ function mainMenu(){
             choices: [
                 "Add Departments, Roles, or Employees",
                 "View Departments, Roles, or Employees",
-                "Update Employee Roles"/*,
-                "Update Managers",
-                "View Employees by Manager",
-                "Delete Departments, Roles, or Employees",
-                "View Total Utilized Budget of a Department"*/
+                "Update Employee Roles"
             ]
         }
     ]).then(answer => {
