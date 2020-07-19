@@ -29,22 +29,13 @@ CREATE TABLE IF NOT EXISTS `employee_db`.`employees` (
 
 INSERT INTO employee_db.departments (name) VALUES 
 ("Operations"),
-("Accounting"),
-("Design"),
-("Installations");
+("Accounting");
 
 INSERT INTO employee_db.roles (id, title, salary, department_id) VALUES 
 (1, "Owner", 100.00, 1),
-(2, "Lead Accountant", 50.00, 2),
-(3, "Lighting Designer", 50.00, 3),
-(4, "Site Lead", 40.00, 4),
-(5, "Independent Contractor", 20.00, 4);
+(2, "Accountant", 50.00, 2);
+
 
 INSERT INTO employee_db.employees VALUES
 (1, "Evan", "Boswood", 1, null),
-(2, "Ruby", "Leigh", 1, null),
-(3, "Taylor", "Dyer", 3, 2),
-(4, "Tyson", "Ihnen", 3, 2),
-(5, "Rebecca", "Gallegos", 2, 1),
-(6, "Ryan", "Creager", 4, 3),
-(7, "Michael", "Loa", 5, 6);
+(2, "Ruby", "Leigh", 2, null);
