@@ -227,7 +227,8 @@ function add(type){
 
         case "employee":
             inquirer.prompt(employeeQuestions).then(res => {
-                connection.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ("${res.firstname}", "${res.lastname}", (SELECT id FROM roles WHERE title = "${res.role}"), (SELECT id AS m_id FROM employees AS original_table WHERE first_name = "${res.manager}"));`);
+                console.log(`New employee created!`);
+                // connection.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ("${res.firstname}", "${res.lastname}", (SELECT id FROM roles WHERE title = "${res.role}"), (SELECT id AS m_id FROM employees AS original_table WHERE first_name = "${res.manager}"));`);
             });
             break;
     }
@@ -279,23 +280,27 @@ function viewMenu(){
 }
 
 function updateMenu(){
-    var temparray = [];
+    connection.query("SELECT first_name, last_name, id FROM employees", function(err, data) {
+        const employees = data.map(employee => ({name:  employee.first_name + " " + employee.last_name, value: employee.id}));
 
-    connection.query("SELECT first_name FROM employees",function(err, data){
-        if(err) throw err;
-        Object.keys(data).forEach(function(key){
-            temparray.push(String(data[key].first_name));
+        inquirer.prompt([
+            {
+                name: "name",
+                type: "list",
+                message: "Who's role would you like to update?",
+                choices: employees
+            },
+            {
+                name: "newRole",
+                type: "number",
+                message: "What is the new role?"
+            }
+        ]).then(answers => {
+            connection.query(`UPDATE employees SET role_id = ${answers.newRole} WHERE id = ${answers.name}`, function(err, res) {
+                if(err) throw err;
+                console.log(res);
+                
+            });
         });
-        console.log(temparray);
     });
-
-    
-    inquirer.prompt([
-        {
-            type: "list",
-            name: "employee",
-            message: "Choose an employee to update.",
-            choices: temparray
-        }
-    ]);
 }
