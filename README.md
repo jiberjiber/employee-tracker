@@ -5,7 +5,7 @@
  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![GitHub last commit](https://img.shields.io/github/last-commit/jiberjiber/employee-tracker)](https://github.com/jiberjiber/employee-tracker/graphs/commit-activity) 
 
  ## Description 
- Employee-tracker is a [NodeJS](https://nodejs.org/en/) and [MySQL](https://www.mysql.com/) based [Command Line Interface(https://en.wikipedia.org/wiki/Command-line_interface) application designed to help maintain company hierarchy and employee data in a persistent-setting. 
+ Employee-tracker is a [NodeJS](https://nodejs.org/en/) and [MySQL](https://www.mysql.com/) based [Command Line Interface](https://en.wikipedia.org/wiki/Command-line_interface) application designed to help maintain company hierarchy and employee data in a persistent-setting. 
 
  <details>
 <summary>TABLE OF CONTENTS</summary>
