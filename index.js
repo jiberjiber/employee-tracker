@@ -210,7 +210,8 @@ function add(type){
             inquirer.prompt(departmentQuestions).then(res => {
                 connection.query(`INSERT INTO departments (name) VALUE ("${res.name}")`, function(err, response){
                     if(err) throw err;
-                    console.log(response);
+                    //console.log(response);
+                    mainMenu();
                 });
             });
             break;
@@ -219,7 +220,8 @@ function add(type){
                 console.log(`New role: ${res.title}\nRole's salary: ${res.salary}\nParent Department: ${res.parentDepartment}`);
                 connection.query(`INSERT INTO roles (title, salary, department_id) VALUES ("${res.title}", ${res.salary}, (SELECT id FROM departments WHERE name = "${res.parentDepartment}"));`, function(err, response){
                     if(err) throw err;
-                    console.log(response);
+                    //console.log(response);
+                    mainMenu();
                 });
             });
 
@@ -227,8 +229,8 @@ function add(type){
 
         case "employee":
             inquirer.prompt(employeeQuestions).then(res => {
-                console.log(`New employee created!`);
-                // connection.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ("${res.firstname}", "${res.lastname}", (SELECT id FROM roles WHERE title = "${res.role}"), (SELECT id AS m_id FROM employees AS original_table WHERE first_name = "${res.manager}"));`);
+                connection.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ("${res.firstname}", "${res.lastname}", (SELECT id FROM roles WHERE title = "${res.role}"), (SELECT id AS m_id FROM employees AS original_table WHERE first_name = "${res.manager}"));`);
+                mainMenu();
             });
             break;
     }
@@ -298,8 +300,8 @@ function updateMenu(){
         ]).then(answers => {
             connection.query(`UPDATE employees SET role_id = ${answers.newRole} WHERE id = ${answers.name}`, function(err, res) {
                 if(err) throw err;
-                console.log(res);
-                
+                //console.log(res);
+                mainMenu();
             });
         });
     });
