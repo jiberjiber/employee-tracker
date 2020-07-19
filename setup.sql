@@ -1,4 +1,4 @@
-DROP DATABASE employee_db;
+DROP DATABASE IF EXISTS employee_db;
 CREATE DATABASE IF NOT EXISTS employee_db;
 
 CREATE TABLE IF NOT EXISTS `employee_db`.`departments` (
